@@ -13,3 +13,17 @@ Joshua Brundan
 Kevin Hira
 """
 
+
+def run():
+    # Get the data
+    # data =  load()
+
+    # Data pre-processing
+    # preprocessed_data = preprocess_data(data)
+
+    # Train the data
+    # model, training_analysis = train(preprocessed_data)
+
+    # analysis(model, training_analysis)
+
+    pass

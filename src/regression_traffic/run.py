@@ -14,6 +14,9 @@ Kevin Hira
 """
 
 from src.common.load import load
+from src.regression_traffic.preprocess import preprocess
+from src.regression_traffic.train import train
+
 DATA_PATH="traffic_flow_data.csv"
 
 def run():
@@ -22,10 +25,13 @@ def run():
     data = load(DATA_PATH, True)
 
     # Data pre-processing
-    preprocessed_data = preprocess_data(data)
+
+
+    preprocessed_data = preprocess(data)
 
     # Train the data
-    # model, training_analysis = train(preprocessed_data)
+    # model, training_analysis
+    train(preprocessed_data)
 
     # analysis(model, training_analysis)
 

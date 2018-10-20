@@ -14,15 +14,15 @@ from sklearn import preprocessing
 import numpy
 
 
-def preprocess(raw_data, n):
+def preprocess(raw_data):
     """
     preprocess the traffic data
     :param data: the raw traffic data
     :return: the preprocessed traffic data
     """
 
-    data = feature_extraction(raw_data, n)
-
+    data = feature_extraction(raw_data)
+    data = balance_dataset(data)
     # Keep all the traffic features
 
     # Split data into features and target
@@ -44,7 +44,6 @@ def normalise(data):
     :return:
     """
     data = data.astype('float64')
-
     min_max_scaler = preprocessing.MinMaxScaler()
     x_scaled = min_max_scaler.fit_transform(data.values)
 
@@ -62,17 +61,29 @@ def split_input_and_target(data):
 
     return features, target
 
-def feature_extraction(data, n):
+def balance_dataset(data):
+    print("data")
+    print(data)
+    grouped_data = data.groupby(36)
+    data = grouped_data.apply(lambda x: x.sample(grouped_data.size().min()).reset_index(drop=True))
+    print("grouped data")
+    print(data)
+    return data
+
+def feature_extraction(data):
 
     # return data
 
-    most_correlated = data.corr().abs()['Segment23_(t+1)'].sort_values(ascending=False)
+
+    most_correlated = data.corr().abs()[36].sort_values(ascending=False)
+
 
     # Get the top 5 coorelated rows
+    print(most_correlated)
 
     # Compare different number N down there
-    best_columns = most_correlated[1:n+1].index.values
-    best_columns = numpy.append(best_columns, ['Segment23_(t+1)'])
+    best_columns = most_correlated[1:11].index.values
+    best_columns = numpy.append(best_columns, [36])
     return data.loc[:, best_columns].copy()
 
 

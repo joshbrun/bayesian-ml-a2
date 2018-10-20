@@ -20,9 +20,16 @@ def load(path, has_header):
     :return:
     """
 
+
+
     if has_header:
         header = 0
     else:
         header = None
 
-    return pandas.read_csv(path, header=header)
+    raw_data = pandas.read_csv(path, header=header)
+
+    print("Data:")
+    print(raw_data)
+
+    return raw_data

@@ -25,16 +25,22 @@ def run():
     data = load(DATA_PATH, True)
 
     # Data pre-processing
+    results = []
+    for n in range(45):
+        print("n=%f"%(n*10))
+        if n == 0:
+            continue
 
+        # N is the number of parameters to choose
+        preprocessed_data = preprocess(data, n*10)
 
-    preprocessed_data = preprocess(data)
+        # Train the data
+        # model, training_analysis
+        results.append(train(preprocessed_data))
 
-    # Train the data
-    # model, training_analysis
-    train(preprocessed_data)
+        # analysis(model, training_analysis)
 
-    # analysis(model, training_analysis)
-
-    pass
+    for r in results:
+        print(r)
 
 run()

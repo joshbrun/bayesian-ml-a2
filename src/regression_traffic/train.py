@@ -14,6 +14,7 @@ from sklearn.model_selection import train_test_split
 import numpy
 from sklearn.linear_model import BayesianRidge
 from sklearn.model_selection import GridSearchCV
+from src.regression_traffic.regression_analysis import analysis_model
 
 
 def train(data, analysis):
@@ -28,10 +29,11 @@ def train(data, analysis):
 
     # Calculate base line
 
-    base_line_predictions = pandas.DataFrame({'prediction':[42]*6750})
-    base_mae, base_rmse = regression_prediction_evaluation(base_line_predictions.values, y_train.values)
+    training_base_line_predictions = pandas.DataFrame({'prediction':[42]*6750})
+    testing_base_line_predictions = pandas.DataFrame({'prediction':[42]*750})
 
-    reg = None
+    # base_mae, base_rmse = regression_prediction_evaluation(base_line_predictions.values, y_train.values)
+
     if analysis:
         model = BayesianRidge()
 
@@ -43,34 +45,27 @@ def train(data, analysis):
         searcher.fit(x_train, y_train)
 
         reg = searcher.best_estimator_
-
-        means = searcher.cv_results_['mean_test_score']
-        stds = searcher.cv_results_['std_test_score']
+        best_parameters = searcher.best_params_
 
         # Testing data
         testing_true, testing_pred = y_test, reg.predict(x_test)
-        testing_mae, testing_rmse = regression_prediction_evaluation(testing_true, testing_pred)
-
         # Training data
         training_true, training_pred = y_train, reg.predict(x_train)
-        training_mae, training_rmse = regression_prediction_evaluation(training_true, training_pred)
 
         # Calculations
-        training_vs_baseline_mae = 100 * abs(training_mae - base_mae) / base_mae
-        testing_vs_baseline_mae = 100 * abs(testing_mae - base_mae) / base_mae
-        training_vs_testing_mae = 100 * abs(training_mae - testing_mae) / testing_mae
-
-        training_vs_baseline_rmse = 100 * abs(training_rmse - base_rmse) / base_rmse
-        testing_vs_baseline_rmse = 100 * abs(testing_rmse - base_rmse) / base_rmse
-        training_vs_testing_rmse = 100 * abs(training_rmse - testing_rmse) / testing_rmse
-
-        return training_vs_baseline_mae, testing_vs_baseline_mae, training_vs_testing_mae, training_vs_baseline_rmse, testing_vs_baseline_rmse, training_vs_testing_rmse
-
-
+        output = analysis_model(testing_base_line_predictions, training_base_line_predictions, testing_true, testing_pred, training_true, training_pred)
+        output.append([best_parameters])
+        return output
 
     else:
         reg = BayesianRidge(alpha_1=1e-6, alpha_2=1e-6, lambda_1=1e-6, lambda_2=1e-6)
         reg.fit(x_train, y_train)
+
+        testing_true, testing_pred = y_test, reg.predict(x_test)
+        training_true, training_pred = y_train, reg.predict(x_train)
+
+        analysis_model(testing_base_line_predictions, training_base_line_predictions, testing_true, testing_pred, training_true, training_pred, True)
+
 
         return reg
 
@@ -85,12 +80,3 @@ def split_input_and_target(data):
     target = data.iloc[:,-1].copy()
 
     return features, target
-
-
-def regression_prediction_evaluation(predictions, true):
-
-    mae = numpy.mean(abs(predictions - true))
-    rmse = numpy.sqrt(numpy.mean((predictions - true) ** 2))
-
-    return mae, rmse
-

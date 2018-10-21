@@ -13,34 +13,81 @@ Joshua Brundan
 Kevin Hira
 """
 
-from src.common.load import load
+from src.common.load import load, append_to_file, delete_file
 from src.regression_traffic.preprocess import preprocess
 from src.regression_traffic.train import train
+import os
+from sklearn.externals import joblib
+import sys
 
-DATA_PATH="traffic_flow_data.csv"
+DIR = os.path.join(os.getcwd(), "src", "regression_traffic")
+PATH = os.path.join(DIR, "traffic_flow_data.csv")
+ANALYSIS_PATH = os.path.join(DIR, "analysis")
 
-def run():
+ANALYSIS_FILE = os.path.join(ANALYSIS_PATH, "regression.csv")
+ORDERED_FEATURES = os.path.join(ANALYSIS_PATH, "features.csv")
+
+BEST_FEATURE_COUNT = 10
+FEATURE_LIST = ["Segment_22(t)", "Segment_23(t)", "Segment_24(t)", "Segment_21(t)",	"Segment_25(t)", "Segment_22(t-1)", "Segment_21(t-1)", "Segment_24(t-1)", "Segment_23(t-1)", "Segment_16(t)", "Segment23_(t+1)"]
+
+
+def run(options):
 
     # Get the data
-    data = load(DATA_PATH, True)
+    data = load(PATH, True)
+    analysing = options['analysis']
+    training = options['train']
+    evaluating_data_path = options['newdata']
 
-    # Data pre-processing
-    results = []
-    for n in range(45):
-        print("n=%f"%(n*10))
-        if n == 0:
-            continue
+    if analysing:
+        # Data pre-processing
+        results = []
 
-        # N is the number of parameters to choose
-        preprocessed_data = preprocess(data, n*10)
+        if not os.path.isdir(ANALYSIS_PATH):
+            os.mkdir(ANALYSIS_PATH)
 
-        # Train the data
-        # model, training_analysis
-        results.append(train(preprocessed_data))
+        delete_file(ANALYSIS_FILE)
+        delete_file(ORDERED_FEATURES)
 
-        # analysis(model, training_analysis)
+        # Feature analysis loops
+        # n = number of features/10
+        for n in range(10, 460, 10):
+            sys.stdout.write("\r%d%%" % (n*100/450))
+            sys.stdout.flush()
 
-    for r in results:
-        print(r)
+            # N is the number of parameters to choose
+            preprocessed_data, most_correlated = preprocess(data, n, None)
 
-run()
+            # Train the data
+            # model, training_analysis
+            append_to_file(ANALYSIS_FILE, train(preprocessed_data, analysing))
+            append_to_file(ORDERED_FEATURES, most_correlated)
+        print()
+
+        for r in results:
+            print(r)
+
+    if training:
+        # train the model
+        preprocessed_data, most_correlated = preprocess(data, BEST_FEATURE_COUNT, FEATURE_LIST)
+        model = train(preprocessed_data, analysing)
+
+        # Save model
+        if not os.path.isdir("models"):
+            os.mkdir('models')
+        joblib.dump(model, 'models/blr_model.joblib')
+
+    else:
+        if not os.path.isdir("models"):
+            print("Model has not been trained")
+            print("\trun:  python run.py -t -d N")
+            print("\twhere N is the dataset you are evaluating on.")
+            exit(2)
+        model = joblib.load('models/blr_model.joblib')
+
+    if evaluating_data_path is not None:
+
+        path = os.path.join(os.getcwd(), evaluating_data_path)
+        evaluating_data = load(path, True)
+        preprocessed_eval_data = preprocess(data, BEST_FEATURE_COUNT, FEATURE_LIST, evaluating_data)
+        return [str(x) for x in model.predict(preprocessed_eval_data)]

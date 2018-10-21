@@ -16,8 +16,9 @@ Kevin Hira
 from src.common.load import load
 from src.regression_traffic.preprocess import preprocess
 from src.regression_traffic.train import train
+import os
 
-DATA_PATH="traffic_flow_data.csv"
+DATA_PATH = os.path.join(os.getcwd(), "src", "regression_traffic", "traffic_flow_data.csv")
 
 def run():
 
@@ -26,13 +27,16 @@ def run():
 
     # Data pre-processing
     results = []
-    for n in range(45):
-        print("n=%f"%(n*10))
-        if n == 0:
-            continue
+
+    # Feature analysis loops
+    # n = number of features/10
+    for n in range(10, 460, 10):
+        print("n=%d"%(n*10))
 
         # N is the number of parameters to choose
-        preprocessed_data = preprocess(data, n*10)
+        preprocessed_data, most_correlated = preprocess(data, n)
+
+
 
         # Train the data
         # model, training_analysis
@@ -43,4 +47,5 @@ def run():
     for r in results:
         print(r)
 
-run()
+    # save the best model
+

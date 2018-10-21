@@ -23,7 +23,7 @@ class CommandInterface:
         """
         Initialises the command interface, extracts the arguments, verifies them, extracts options from them
         """
-
+        print("\nParsing user parameters:")
         self.options = {'train': False,
                         'dataset': None,
                         'newdata': None}
@@ -34,6 +34,8 @@ class CommandInterface:
 
         parser.add_argument("-n", "--newdata", help="Process a new data instance and perform an estimation")
         parser.add_argument("-t", "--train", help="If present train the models", action="store_true")
+        parser.add_argument("-a", "--analysis", help="If present run the analysis of the models, The analysis flag overrides other flags", action="store_true")
+
         self.args = parser.parse_args()
         self.verify_args()
 
@@ -48,7 +50,7 @@ class CommandInterface:
         """
 
         # Check there is some argument, [Rule 2 and Rule 3]
-        if not self.args.train and not (self.args.dataset or self.args.newdata):
+        if not self.args.analysis and not self.args.train and not (self.args.dataset or self.args.newdata):
             print("\nError: No options specified.")
             print("\tRead the README File  or")
             print("\tRun the command:")
@@ -85,11 +87,19 @@ class CommandInterface:
             if self.args.newdata:
                 print("\n%s on new data set:" % dataset_dict[dataset])
                 print("\tFile: %s" % self.args.newdata)
+            dataset = [dataset]
 
         if self.options is not None:
             self.options = {'train': self.args.train,
                             'dataset': dataset,
-                            'newdata': self.args.newdata}
+                            'newdata': self.args.newdata,
+                            'analysis': False}
+
+        if self.args.analysis:
+            self.options = {'train': True,
+                            'dataset': dataset,
+                            'newdata': None,
+                            'analysis': True}
 
     def get_options(self):
         """

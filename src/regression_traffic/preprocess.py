@@ -21,20 +21,18 @@ def preprocess(raw_data, n):
     :return: the preprocessed traffic data
     """
 
-    data = feature_extraction(raw_data, n)
-
-    # Keep all the traffic features
+    # n is the number of features to use
+    data, most_correlated = feature_extraction(raw_data, n)
 
     # Split data into features and target
     features, target = split_input_and_target(data)
-
 
     # Normalise the columns
     normalised_features = normalise(features)
 
     preprocessed_data = pandas.concat([normalised_features, target], axis=1)
 
-    return preprocessed_data
+    return preprocessed_data, most_correlated
 
 
 def normalise(data):
@@ -67,13 +65,13 @@ def feature_extraction(data, n):
     # return data
 
     most_correlated = data.corr().abs()['Segment23_(t+1)'].sort_values(ascending=False)
-
-    # Get the top 5 coorelated rows
+    print(most_correlated)
+    # Get the top n most coorelated features
 
     # Compare different number N down there
     best_columns = most_correlated[1:n+1].index.values
     best_columns = numpy.append(best_columns, ['Segment23_(t+1)'])
-    return data.loc[:, best_columns].copy()
+    return data.loc[:, best_columns].copy(), most_correlated
 
 
 

@@ -19,9 +19,6 @@ def load(path, has_header):
     :param has_header: Has a header or not
     :return:
     """
-
-
-
     if has_header:
         header = 0
     else:
@@ -30,6 +27,7 @@ def load(path, has_header):
     raw_data = pandas.read_csv(path, header=header)
 
     print("Data:")
-    print(raw_data)
+    print(raw_data.describe())
+    print(path)
 
     return raw_data

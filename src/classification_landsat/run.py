@@ -17,12 +17,15 @@ from src.common.load import load
 from src.classification_landsat.preprocess import preprocess
 from src.classification_landsat.train import train
 import matplotlib.pyplot as plt
+import os
 
-DATA_PATH="lantsat.csv"
+DATA_PATH = os.path.join(os.getcwd(), "classification_landsat", "lantsat.csv")
 
-def run():
+
+def run(analysis):
 
     # Get the data
+    print(DATA_PATH)
     data = load(DATA_PATH, False)
 
     plt.hist(data[36], bins=5)
@@ -37,5 +40,4 @@ def run():
     # train(preprocessed_data)
 
     # analysis(model, training_analysis)
-
-run()
+    # save the best model

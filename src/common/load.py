@@ -10,6 +10,7 @@ Kevin Hira
 """
 
 import pandas
+import os
 
 
 def load(path, has_header):
@@ -31,3 +32,25 @@ def load(path, has_header):
     print(path)
 
     return raw_data
+
+def delete_file(path):
+    """
+    Remove a file
+    :param path:
+    :return:
+    """
+    if os.path.isfile(path):
+        os.remove(path)
+
+def append_to_file(path, line):
+    """
+    Appends a line to a file
+    :param path:
+    :param line:
+    :return:
+    """
+
+    output = ",".join([str(x) for x in line])
+
+    with open(path, 'a+') as f:
+        f.write(output+"\n")

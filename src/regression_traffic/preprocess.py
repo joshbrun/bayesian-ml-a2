@@ -65,13 +65,12 @@ def feature_extraction(data, n):
     # return data
 
     most_correlated = data.corr().abs()['Segment23_(t+1)'].sort_values(ascending=False)
-    print(most_correlated)
     # Get the top n most coorelated features
 
     # Compare different number N down there
     best_columns = most_correlated[1:n+1].index.values
     best_columns = numpy.append(best_columns, ['Segment23_(t+1)'])
-    return data.loc[:, best_columns].copy(), most_correlated
+    return data.loc[:, best_columns].copy(), best_columns
 
 
 

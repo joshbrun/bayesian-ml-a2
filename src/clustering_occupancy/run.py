@@ -14,7 +14,7 @@ Kevin Hira
 """
 
 
-def run():
+def run(analysis):
     # Get the data
     # data =  load()
 

@@ -29,8 +29,10 @@ class CommandInterface:
                         'newdata': None}
         parser = argparse.ArgumentParser()
 
-        parser.add_argument("-d", "--dataset", type=int, choices=[1, 2, 3],
+        parser.add_argument("-d", "--dataset", type=int, choices=[1, 2, 3, 4, 5],
                             help="Pick a particular data set, options [1:regression, 2:cluster, 3: Classification]")
+        parser.add_argument("-s", "--select", type=int, choices=[0, 1, 2],
+                            help="Select the algorithm to run, options [0:Both, 1:first, 2:second], for regression: has no effect only has Bayesian linear regression, for classification: first: logistic_regression, second: deep learning and for clustering first: k_means, second: gaussian_mixture_model")
 
         parser.add_argument("-n", "--newdata", help="Process a new data instance and perform an estimation")
         parser.add_argument("-t", "--train", help="If present train the models", action="store_true")
@@ -63,17 +65,53 @@ class CommandInterface:
         dataset = self.args.dataset
         dataset_dict = {1: 'Regression', 2: 'Clustering', 3: 'Classification'}
 
-        # Check if all or a single dataset
-        if dataset in [1, 2, 3]:
+
+        if dataset == 1:
             print("\tSingle data set: %d: %s" % (dataset, dataset_dict[dataset]))
+
+        elif dataset == 2:
+            print("\tSingle data set: %d: %s" % (dataset, dataset_dict[dataset]))
+            if self.args.select == 0:
+                dataset = [2, 3]
+                print("\tBoth algorithms selected k-means and GMM")
+            elif self.args.select == 1:
+                datase = [2]
+                print("\tSingle algorithms selected k-means")
+            elif self.args.select == 2:
+                dataset = [3]
+                print("\tSingle algorithms selected GMM")
+
+        elif dataset == 3:
+            print("\tSingle data set: %d: %s" % (dataset, dataset_dict[dataset]))
+            if self.args.select == 0:
+                dataset = [4, 5]
+
+                print("\tBoth algorithms selected logistic_regression and deep_learning")
+            elif self.args.select == 1:
+                dataset = [4]
+
+                print("\tSingle algorithms selected logistic_regression")
+            elif self.args.select == 2:
+                dataset = [5]
+
+                print("\tSingle algorithms selected deep_learning")
+
         else:
-            dataset = [1, 2, 3]
+            dataset = [1, 2, 3, 4, 5]
             print("\tAll data sets:")
             print("\t\t1: Regression")
             print("\t\t2: Clustering")
+            print("\t\t\t2.1: K-means")
+            print("\t\t\t2.2: GMM")
             print("\t\t3: Classification")
+            print("\t\t\t3.1: logistic regression")
+            print("\t\t\t3.2: Deep-learning")
+
+
         if not self.args.analysis:
             print("\tTraining: %s" % self.args.train)
+
+
 
         # Check if newdata is only called on a single dataset [Rule 1]
         if dataset == [1, 2, 3]:
@@ -92,7 +130,8 @@ class CommandInterface:
                     print("\tPrediction on rows in:")
                     print("\t\tFile: %s" % self.args.newdata)
 
-            dataset = [dataset]
+            if type(dataset) is not list:
+                dataset = [dataset]
 
 
         if self.options is not None:

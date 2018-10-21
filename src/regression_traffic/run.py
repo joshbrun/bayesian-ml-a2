@@ -73,10 +73,17 @@ def run(options):
         model = train(preprocessed_data, analysing)
 
         # Save model
-        joblib.dump(model, 'blr_model.joblib')
+        if not os.path.isdir("models"):
+            os.mkdir('models')
+        joblib.dump(model, 'models/blr_model.joblib')
 
     else:
-        model = joblib.load('blr_model.joblib')
+        if not os.path.isdir("models"):
+            print("Model has not been trained")
+            print("\trun:  python run.py -t -d N")
+            print("\twhere N is the dataset you are evaluating on.")
+            exit(2)
+        model = joblib.load('models/blr_model.joblib')
 
     if evaluating_data_path is not None:
 

@@ -9,10 +9,17 @@ Joshua Brundan
 Kevin Hira
 """
 
-from src.classification_landsat.run import run as classification_run
+# Classification Algorithms
+from src.classification_landsat.run_logistic_regression import run as logistic_regression_run
+from src.classification_landsat.run_deep_learning import run as deep_learning_run
+
+# Regression Algorithm
 from src.regression_traffic.run import run as regression_run
+
+# Clustering Algorithm
 from src.clustering_occupancy.run import run as clustering_run
 
+# Command Line Interface
 from src.common.commandinterface import CommandInterface
 
 def horizontal_line():
@@ -40,15 +47,22 @@ if options is not None:
 
     run = {1: regression_run,
            2: clustering_run,
-           3: classification_run}
+           3: clustering_run,
+           4: logistic_regression_run,
+           5: deep_learning_run}
 
-
+    names = {1: 'bayesian linear regression',
+           2: 'clustering',
+           3: 'clustering',
+           4: 'logistic_regression',
+           5: 'deep_learning'}
 
     # Training
     if options['train']:
         print("Training:")
         for ml_type in options['dataset']:
-            print("Dataset: %d" % ml_type)
+            print(options['dataset'])
+            print("Algorithm: %d: %s" % (ml_type, names[ml_type]))
 
             run[ml_type](options)
             pass

@@ -56,6 +56,7 @@ if options is not None:
         horizontal_line()
 
     if options['newdata']:
+        options['train'] = False
         prediction = run[options['dataset'][0]](options)
         print("Model Predictions:")
         for i in range(len(prediction)):

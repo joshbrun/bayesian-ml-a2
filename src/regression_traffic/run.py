@@ -51,7 +51,7 @@ def run(options):
 
         # Feature analysis loops
         # n = number of features/10
-        for n in range(10, 460, 10):
+        for n in range(10, 460, 45):
             sys.stdout.write("\r%d%%" % (n*100/450))
             sys.stdout.flush()
 

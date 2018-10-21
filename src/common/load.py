@@ -49,7 +49,6 @@ def append_to_file(path, line):
     :param line:
     :return:
     """
-
     output = ",".join([str(x) for x in line])
 
     with open(path, 'a+') as f:

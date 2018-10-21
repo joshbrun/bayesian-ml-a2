@@ -23,7 +23,7 @@ class CommandInterface:
         """
         Initialises the command interface, extracts the arguments, verifies them, extracts options from them
         """
-        print("Parsing user parameters:")
+        print("Execution Mode:")
         self.options = {'train': False,
                         'dataset': None,
                         'newdata': None}
@@ -49,6 +49,9 @@ class CommandInterface:
         3: can always train
         """
 
+
+
+
         # Check there is some argument, [Rule 2 and Rule 3]
         if not self.args.analysis and not self.args.train and not (self.args.dataset or self.args.newdata):
             print("\nError: No options specified.")
@@ -62,16 +65,15 @@ class CommandInterface:
 
         # Check if all or a single dataset
         if dataset in [1, 2, 3]:
-            print("\nRunning against dataset:")
-            print("\t%d: %s" % (dataset, dataset_dict[dataset]))
+            print("\tSingle data set: %d: %s" % (dataset, dataset_dict[dataset]))
         else:
             dataset = [1, 2, 3]
-            print("\nDatasets running against:")
-            print("\t1: Regression")
-            print("\t2: Clustering")
-            print("\t3: Classification")
-
-        print("\nTraining: %s" % self.args.train)
+            print("\tAll data sets:")
+            print("\t\t1: Regression")
+            print("\t\t2: Clustering")
+            print("\t\t3: Classification")
+        if not self.args.analysis:
+            print("\tTraining: %s" % self.args.train)
 
         # Check if newdata is only called on a single dataset [Rule 1]
         if dataset == [1, 2, 3]:
@@ -84,10 +86,14 @@ class CommandInterface:
                 print("\tRun the command:")
                 print("\t\tpython run.py --help\n")
         else:
+
             if self.args.newdata:
-                print("\n%s on new data set:" % dataset_dict[dataset])
-                print("\tFile: %s" % self.args.newdata)
+                if not self.args.analysis:
+                    print("\tPrediction on rows in:")
+                    print("\t\tFile: %s" % self.args.newdata)
+
             dataset = [dataset]
+
 
         if self.options is not None:
             self.options = {'train': self.args.train,
@@ -100,6 +106,7 @@ class CommandInterface:
                             'dataset': dataset,
                             'newdata': None,
                             'analysis': True}
+            print("\tAnalysis Mode Only.")
 
     def get_options(self):
         """

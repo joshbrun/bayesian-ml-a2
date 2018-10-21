@@ -48,18 +48,20 @@ if options is not None:
     if options['train']:
         print("Training:")
         for ml_type in options['dataset']:
-            run[ml_type](options['analysis'])
+            print("%d" % ml_type)
+            run[ml_type](options)
             pass
 
         horizontal_line()
     # New Data
 
     if options['newdata']:
-        print("NewData:")
-        print("Load %s" % options['newdata'])
+        print("Model Predictions:")
+        prediction = run[options['dataset'][0]](options)
+        for i in range(len(prediction)):
+            print("%d: %s" % (i, prediction[i]))
         horizontal_line()
 
-        # Load Models
 
 print("\n")
 

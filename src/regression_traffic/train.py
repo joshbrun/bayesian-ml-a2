@@ -42,8 +42,6 @@ def train(data, analysis):
         searcher = GridSearchCV(model, tuned_parameters, cv=15)
         searcher.fit(x_train, y_train)
 
-        print(searcher.best_params_)
-        print(searcher.best_estimator_)
         reg = searcher.best_estimator_
 
         means = searcher.cv_results_['mean_test_score']
@@ -71,9 +69,6 @@ def train(data, analysis):
 
 
     else:
-        model = BayesianRidge()
-
-        tuned_parameters = best_parameters
         reg = BayesianRidge(alpha_1=1e-6, alpha_2=1e-6, lambda_1=1e-6, lambda_2=1e-6)
         reg.fit(x_train, y_train)
 
@@ -82,7 +77,7 @@ def train(data, analysis):
 def split_input_and_target(data):
     """
     Split the feature and target columns
-    :param data: The combined dataframe
+    :param data: The combined data drame
     :return: features columns and target columns
     """
 

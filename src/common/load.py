@@ -27,9 +27,9 @@ def load(path, has_header):
 
     raw_data = pandas.read_csv(path, header=header)
 
-    print("Data:")
-    print(raw_data.describe())
-    print(path)
+    # print("Data:")
+    # print(raw_data.describe())
+    # print(path)
 
     return raw_data
 

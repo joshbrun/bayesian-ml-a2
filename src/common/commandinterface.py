@@ -23,7 +23,7 @@ class CommandInterface:
         """
         Initialises the command interface, extracts the arguments, verifies them, extracts options from them
         """
-        print("\nParsing user parameters:")
+        print("Parsing user parameters:")
         self.options = {'train': False,
                         'dataset': None,
                         'newdata': None}

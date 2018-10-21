@@ -103,3 +103,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+
+# Model/Analysis files
+models/
+analysis/

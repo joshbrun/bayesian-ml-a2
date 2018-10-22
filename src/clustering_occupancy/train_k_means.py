@@ -31,9 +31,6 @@ def train(data, analysis):
     model = GridSearchCV(cluster, [{'max_iter' : [2500]}], cv=15)
     model.fit(x_train)
 
-    y_test.iloc[:] = 1-y_test.iloc[:]
-    y_train.iloc[:] = 1-y_train.iloc[:]
-
     # Testing data
     testing_true, testing_pred = y_test, model.predict(x_test)
     # Training data

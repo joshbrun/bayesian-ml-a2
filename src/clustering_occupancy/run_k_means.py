@@ -14,9 +14,8 @@ ANALYSIS_PATH = os.path.join(DIR, "analysis")
 ANALYSIS_FILE = os.path.join(ANALYSIS_PATH, "k_means_clustering.csv")
 ORDERED_FEATURES = os.path.join(ANALYSIS_PATH, "k_means_features.csv")
 
-BEST_FEATURE_COUNT = 5
+
 BEST_FEATURE_COUNT = 1
-FEATURE_LIST = ['Light','CO2','Temperature','HumidityRatio','Humidity','Occupancy']
 FEATURE_LIST = ['Light','Occupancy']
 
 def run(options):

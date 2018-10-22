@@ -62,7 +62,7 @@ def analysis_model(testing_actual, testing_prediction, training_actual, training
     for metric in metrics:
         metric['test_score'] = metric['func'](testing_actual, testing_prediction)
         metric['train_score'] = metric['func'](training_actual, training_prediction)
-        metric['overfit_score'] = percentage_improvement(metric['test_score'], metric['train_score'])
+        metric['overfit_score'] = percentage_improvement(metric['train_score'], metric['test_score'])
         if verbose:
             print(metric['name'])
             print('\tTest Set:\t\t%f' % (metric['test_score']))

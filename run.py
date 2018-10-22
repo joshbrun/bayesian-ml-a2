@@ -62,7 +62,6 @@ if options is not None:
     if options['train']:
         print("Training:")
         for ml_type in options['dataset']:
-            print(options['dataset'])
             print("Algorithm: %d: %s" % (ml_type, names[ml_type]))
 
             run[ml_type](options)

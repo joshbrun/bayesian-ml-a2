@@ -53,7 +53,7 @@ if options is not None:
            5: deep_learning_run}
 
     names = {1: 'Bayesian Linear Regression',
-           2: 'kMeans Clustering',
+           2: 'K Means Clustering',
            3: 'GMM Clustering',
            4: 'Logistic Regression',
            5: 'Deep Learning'}

@@ -12,7 +12,7 @@ Kevin Hira
 import pandas
 from sklearn.model_selection import train_test_split
 import numpy
-from sklearn.cluster import KMeans
+from sklearn.mixture import GaussianMixture
 from src.clustering_occupancy.clustering_analysis import analysis_model
 
 
@@ -26,7 +26,7 @@ def train(data, analysis):
     features, target = split_input_and_target(data)
     x_train, x_test, y_train, y_test = train_test_split(features, target, test_size=0.10)
 
-    model = KMeans(n_clusters=2)
+    model = GaussianMixture(n_components=2)
     model.fit(x_train)
 
     y_test.iloc[:] = 1-y_test.iloc[:]

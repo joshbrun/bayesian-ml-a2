@@ -17,8 +17,8 @@ from src.classification_landsat.run_deep_learning import run as deep_learning_ru
 from src.regression_traffic.run import run as regression_run
 
 # Clustering Algorithm
-from src.clustering_occupancy.run import run as clustering_run
 from src.clustering_occupancy.run_k_means import run as k_means_run
+from src.clustering_occupancy.run_gmm import run as gmm_run
 
 # Command Line Interface
 from src.common.commandinterface import CommandInterface
@@ -48,7 +48,7 @@ if options is not None:
 
     run = {1: regression_run,
            2: k_means_run,
-           3: clustering_run,
+           3: gmm_run,
            4: logistic_regression_run,
            5: deep_learning_run}
 

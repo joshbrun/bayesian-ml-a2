@@ -17,7 +17,8 @@ from src.classification_landsat.run_deep_learning import run as deep_learning_ru
 from src.regression_traffic.run import run as regression_run
 
 # Clustering Algorithm
-from src.clustering_occupancy.run import run as clustering_run
+from src.clustering_occupancy.run_k_means import run as k_means_run
+from src.clustering_occupancy.run_gmm import run as gmm_run
 
 # Command Line Interface
 from src.common.commandinterface import CommandInterface
@@ -47,25 +48,23 @@ if options is not None:
     horizontal_line()
 
     run = {1: regression_run,
-           2: clustering_run,
-           3: clustering_run,
+           2: k_means_run,
+           3: gmm_run,
            4: logistic_regression_run,
            5: deep_learning_run}
 
-    names = {1: 'bayesian linear regression',
-           2: 'clustering',
-           3: 'clustering',
-           4: 'logistic_regression',
-           5: 'deep_learning'}
+    names = {1: 'Bayesian Linear Regression',
+           2: 'K Means Clustering',
+           3: 'GMM Clustering',
+           4: 'Logistic Regression',
+           5: 'Deep Learning'}
 
     # Training
     if options['train']:
         print("Training:")
         for ml_type in options['dataset']:
             if not ml_type == 5:
-                print(options['dataset'])
                 print("Algorithm: %d: %s" % (ml_type, names[ml_type]))
-
                 run[ml_type](options)
 
             elif ml_type == 5 and options['analysis']:

@@ -11,31 +11,52 @@ Kevin Hira
 
 import pandas
 from sklearn import preprocessing
+from sklearn.preprocessing import MultiLabelBinarizer, OneHotEncoder, LabelBinarizer
+from sklearn.feature_selection import SelectKBest, chi2, f_regression, VarianceThreshold, SelectPercentile, f_classif
 import numpy
 
 
-def preprocess(raw_data):
+def preprocess(raw_data, balanced_dataset, user_data=None):
     """
     preprocess the traffic data
     :param data: the raw traffic data
     :return: the preprocessed traffic data
     """
 
+    if user_data is not None:
+        # Add the evaluation_data to the dataset
+        raw_data = raw_data.append(user_data, ignore_index=True)
+
     data = feature_extraction(raw_data)
-    data = balance_dataset(data)
+
     # Keep all the traffic features
 
     # Split data into features and target
     features, target = split_input_and_target(data)
 
-
     # Normalise the columns
     normalised_features = normalise(features)
 
-    preprocessed_data = pandas.concat([normalised_features, target], axis=1)
+    # y = label_binariser(target)
+    # binarised_targets = pandas.DataFrame(data=y)
 
-    return preprocessed_data
+    preprocessed_data = pandas.concat([normalised_features, target], axis=1, ignore_index=True)
 
+    if user_data is not None:
+        data = preprocessed_data.iloc[6000:, :].copy()
+        features, target = split_input_and_target(data)
+        return features
+    else:
+        preprocessed_data = balance_dataset(preprocessed_data)
+        preprocessed_data.reset_index(inplace=True)
+        return preprocessed_data
+
+
+def label_binariser(target):
+    lb = LabelBinarizer()
+    lb.fit(target)
+    target = lb.transform(target)
+    return target
 
 def normalise(data):
     """
@@ -62,29 +83,38 @@ def split_input_and_target(data):
     return features, target
 
 def balance_dataset(data):
-    print("data")
-    print(data)
-    grouped_data = data.groupby(36)
-    data = grouped_data.apply(lambda x: x.sample(grouped_data.size().min()).reset_index(drop=True))
-    print("grouped data")
-    print(data)
+    grouped_data = data.groupby(36, group_keys=False)
+    data = grouped_data.apply(lambda x: x.sample(grouped_data.size().min()))
     return data
 
 def feature_extraction(data):
 
-    # return data
 
 
-    most_correlated = data.corr().abs()[36].sort_values(ascending=False)
+    # Initial Analysis showed that any kind of feature selection results
+    # in a reduction of accuracy in the logistic regression algorithm
+
+    # Change these values to change the feature selection process
+    # x, y = split_input_and_target(data)
 
 
-    # Get the top 5 coorelated rows
-    print(most_correlated)
 
-    # Compare different number N down there
-    best_columns = most_correlated[1:11].index.values
-    best_columns = numpy.append(best_columns, [36])
-    return data.loc[:, best_columns].copy()
+    # Variance Threshold
+    # selector = VarianceThreshold()
+    # x = selector.fit_transform(x)
+
+    # Select Precentile
+    # selector = SelectPercentile(f_classif, percentile=100)
+    # x = selector.fit_transform(x, y)
+
+    # K Best
+    # # x = SelectKBest(f_regression, k=36).fit_transform(x, y)
+
+    # Recombine data
+    # x = pandas.DataFrame(data=x[1:, 1:], columns=x[0, 1:])
+    # data = pandas.concat([x, y], axis=1, ignore_index=True)
+    # data = data.drop(data.index[len(data) - 1])
+    return data
 
 
 

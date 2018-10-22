@@ -41,7 +41,6 @@ def run(options):
 
     if analysing:
         # Data pre-processing
-        results = []
 
         if not os.path.isdir(ANALYSIS_PATH):
             os.mkdir(ANALYSIS_PATH)
@@ -63,9 +62,6 @@ def run(options):
             append_to_file(ANALYSIS_FILE, train(preprocessed_data, analysing))
             append_to_file(ORDERED_FEATURES, most_correlated)
         print()
-
-        for r in results:
-            print(r)
 
     if training:
         # train the model

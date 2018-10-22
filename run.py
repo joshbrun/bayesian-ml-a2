@@ -42,6 +42,7 @@ print_info()
 user_interface = CommandInterface()
 options = user_interface.get_options()
 
+
 if options is not None:
     horizontal_line()
 
@@ -61,22 +62,28 @@ if options is not None:
     if options['train']:
         print("Training:")
         for ml_type in options['dataset']:
-            print(options['dataset'])
-            print("Algorithm: %d: %s" % (ml_type, names[ml_type]))
+            if not ml_type == 5:
+                print(options['dataset'])
+                print("Algorithm: %d: %s" % (ml_type, names[ml_type]))
 
-            run[ml_type](options)
-            pass
+                run[ml_type](options)
+
+            elif ml_type == 5 and options['analysis']:
+                print(options['dataset'])
+                print("Algorithm: %d: %s" % (ml_type, names[ml_type]))
+                run[ml_type](options)
+
 
         horizontal_line()
 
     if options['newdata']:
-        options['train'] = False
-        prediction = run[options['dataset'][0]](options)
-        print("Model Predictions:")
-        for i in range(len(prediction)):
-            print("%d: %s" % (i, prediction[i]))
-        horizontal_line()
-
+        for i in range(len(options['dataset'])):
+            options['train'] = False
+            prediction = run[options['dataset'][i]](options)
+            print("Model Predictions:")
+            for i in range(len(prediction)):
+                print("%d: %s" % (i, prediction[i]))
+            horizontal_line()
 
 print("\n")
 

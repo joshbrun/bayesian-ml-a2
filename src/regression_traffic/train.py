@@ -25,7 +25,7 @@ def train(data, analysis):
     """
 
     features, target = split_input_and_target(data)
-    x_train, x_test, y_train, y_test = train_test_split(features, target, test_size=0.10)
+    x_train, x_test, y_train, y_test = train_test_split(features, target, stratify=target, test_size=0.10)
 
     # Calculate base line
 

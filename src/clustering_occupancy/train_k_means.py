@@ -28,7 +28,7 @@ def train(data, analysis):
     x_train, x_test, y_train, y_test = train_test_split(features, target, test_size=0.10)
 
     cluster = KMeans(n_clusters=2)
-    model = GridSearchCV(cluster, [{'max_iter' : [100]}], cv=15)
+    model = GridSearchCV(cluster, [{'max_iter' : [2500]}], cv=15)
     model.fit(x_train)
 
     y_test.iloc[:] = 1-y_test.iloc[:]

@@ -29,7 +29,7 @@ def train(data, analysis):
 
     
     cluster = GaussianMixture(n_components=2)
-    model = GridSearchCV(cluster, [{'max_iter' : [100]}], cv=15)
+    model = GridSearchCV(cluster, [{'max_iter' : [2500]}], cv=15)
     model.fit(x_train)
 
     y_test.iloc[:] = 1-y_test.iloc[:]

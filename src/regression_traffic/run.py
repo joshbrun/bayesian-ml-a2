@@ -27,8 +27,9 @@ ANALYSIS_PATH = os.path.join(DIR, "analysis")
 ANALYSIS_FILE = os.path.join(ANALYSIS_PATH, "regression.csv")
 ORDERED_FEATURES = os.path.join(ANALYSIS_PATH, "features.csv")
 
-BEST_FEATURE_COUNT = 10
-FEATURE_LIST = ["Segment_22(t)", "Segment_23(t)", "Segment_24(t)", "Segment_21(t)",	"Segment_25(t)", "Segment_22(t-1)", "Segment_21(t-1)", "Segment_24(t-1)", "Segment_23(t-1)", "Segment_16(t)", "Segment23_(t+1)"]
+# Analysis showed using all features resulted in best accuracy
+BEST_FEATURE_COUNT = 451
+FEATURE_LIST = None #["Segment_22(t)", "Segment_23(t)", "Segment_24(t)", "Segment_21(t)",	"Segment_25(t)", "Segment_22(t-1)", "Segment_21(t-1)", "Segment_24(t-1)", "Segment_23(t-1)", "Segment_16(t)", "Segment23_(t+1)"]
 
 
 def run(options):
@@ -50,7 +51,7 @@ def run(options):
 
         # Feature analysis loops
         # n = number of features/10
-        for n in range(10, 460, 10):
+        for n in range(10, 460, 15):
             sys.stdout.write("\r%d%%" % (n*100/450))
             sys.stdout.flush()
 

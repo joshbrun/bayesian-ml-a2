@@ -1,12 +1,7 @@
 import tensorflow as tf
-from tensorflow import keras
 from tensorflow import estimator
 from sklearn.model_selection import train_test_split
-import pickle
-from sklearn.preprocessing import LabelBinarizer
-import os
 import numpy as np
-import pandas
 
 
 def train(data, analysis, hidden_layers, training=False, estimation=None, verbose=False):
@@ -22,9 +17,11 @@ def train(data, analysis, hidden_layers, training=False, estimation=None, verbos
     feature_cols = [tf.feature_column.numeric_column("X", shape=[1, 36])]
 
 
+    # hidden_layers = [750, 500, 50]
     dnn_clf = estimator.DNNClassifier(hidden_units=hidden_layers,
                                       n_classes=8,
-                                      feature_columns=feature_cols)
+                                      feature_columns=feature_cols,
+                                      batch_norm=True)
 
     input_fn = estimator.inputs.numpy_input_fn(x={"X": x_train.values}, y=y_train.values, num_epochs=150, batch_size=10, shuffle=True)
 

@@ -9,11 +9,8 @@ Joshua Brundan
 Kevin Hira
 """
 
-import pandas
 from sklearn.model_selection import train_test_split
 import numpy
-from sklearn.linear_model import BayesianRidge
-from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model.logistic import LogisticRegressionCV
 from sklearn.metrics import classification_report
 

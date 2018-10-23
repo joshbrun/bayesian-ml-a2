@@ -37,7 +37,6 @@ from src.classification_landsat.preprocess import preprocess
 from src.classification_landsat.train_logistic_regression import train as train_logistic_regression
 import os
 from sklearn.externals import joblib
-import sys
 
 DIR = os.path.join(os.getcwd(), "src", "classification_landsat")
 PATH = os.path.join(DIR, "landsat.csv")

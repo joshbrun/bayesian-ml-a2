@@ -25,7 +25,7 @@ def train(data, analysis):
     """
 
     features, target = split_input_and_target(data)
-    x_train, x_test, y_train, y_test = train_test_split(features, target, stratify=target, test_size=0.10)
+    x_train, x_test, y_train, y_test = train_test_split(features, target, test_size=0.10)
 
     # Calculate base line
 
@@ -41,7 +41,7 @@ def train(data, analysis):
                              'alpha_2': [1e-5, 1e-6, 1e-7],
                              'lambda_1': [1e-5, 1e-6, 1e-7],
                              'lambda_2': [1e-5, 1e-6, 1e-7]}]
-        searcher = GridSearchCV(model, tuned_parameters, cv=15)
+        searcher = GridSearchCV(model, tuned_parameters, cv=15, n_jobs=-1)
         searcher.fit(x_train, y_train)
 
         reg = searcher.best_estimator_
@@ -58,7 +58,8 @@ def train(data, analysis):
         return output
 
     else:
-        reg = BayesianRidge(alpha_1=1e-6, alpha_2=1e-6, lambda_1=1e-6, lambda_2=1e-6)
+        # These values are the best from from the analysis
+        reg = BayesianRidge(alpha_1=1e-7, alpha_2=1e-6, lambda_1=1e-5, lambda_2=1e-7)
         reg.fit(x_train, y_train)
 
         testing_true, testing_pred = y_test, reg.predict(x_test)

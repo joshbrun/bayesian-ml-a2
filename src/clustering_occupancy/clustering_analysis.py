@@ -49,7 +49,7 @@ def analysis_model(testing_actual, testing_prediction, training_actual, training
                     'overfit_score' : 0
                 },
                 {
-                    'name' : 'Fowlkes-Mallows Score',
+                        'name' : 'Fowlkes-Mallows Score',
                     'func' : fowlkes_mallows_score,
                     'test_score' : 0,
                     'train_score' : 0,

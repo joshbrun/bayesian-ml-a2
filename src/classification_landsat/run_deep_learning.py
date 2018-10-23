@@ -16,8 +16,6 @@ from src.common.load import load, append_to_file, delete_file
 from src.classification_landsat.preprocess import preprocess
 from src.classification_landsat.train_deep_learning import train as train_deep_learning
 import os
-from sklearn.externals import joblib
-import sys
 import tensorflow as tf
 
 DIR = os.path.join(os.getcwd(), "src", "classification_landsat")
@@ -26,7 +24,7 @@ ANALYSIS_PATH = os.path.join(DIR, "analysis")
 
 ANALYSIS_FILE = os.path.join(ANALYSIS_PATH, "deep_reg.csv")
 
-BEST_HIDDEN_LAYER = [500, 250, 50]
+BEST_HIDDEN_LAYER = [750, 50, 20]
 
 def run(options):
 
@@ -45,9 +43,9 @@ def run(options):
 
         preprocessed_data = preprocess(data, False)
 
-        hidden_layer_1 = [20,50,100]
-        hidden_layer_2 = [50,100,250,500]
-        hidden_layer_3 = [50,250,500,750]
+        hidden_layer_1 = [6,12,18,36]
+        hidden_layer_2 = [6,12,18,36,]
+        hidden_layer_3 = [6,12,18,36,72]
         # Train the data
         # model, training_analysis
 
@@ -56,7 +54,11 @@ def run(options):
         print("Please ignore the tensorflow warnings below:")
         for i in hidden_layer_3:
             for j in hidden_layer_2:
+                if j > i:
+                    continue
                 for k in hidden_layer_1:
+                    if k > j:
+                        continue
                     append_to_file(ANALYSIS_FILE, train_deep_learning(preprocessed_data, True, [i, j, k]))
 
     if evaluating_data_path is not None:

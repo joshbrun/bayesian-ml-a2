@@ -9,9 +9,7 @@ Joshua Brundan
 Kevin Hira
 """
 
-import pandas
 from sklearn.model_selection import train_test_split
-import numpy
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GridSearchCV
 from src.clustering_occupancy.clustering_analysis import analysis_model

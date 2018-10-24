@@ -59,7 +59,7 @@ def train(data, analysis):
 
     else:
         # These values are the best from from the analysis
-        reg = BayesianRidge(alpha_1=1e-7, alpha_2=1e-6, lambda_1=1e-5, lambda_2=1e-7)
+        reg = BayesianRidge(alpha_1=1e-7, alpha_2=1e-7, lambda_1=1e-5, lambda_2=1e-7)
         reg.fit(x_train, y_train)
 
         testing_true, testing_pred = y_test, reg.predict(x_test)

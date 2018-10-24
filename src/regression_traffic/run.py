@@ -28,7 +28,7 @@ ANALYSIS_FILE = os.path.join(ANALYSIS_PATH, "regression.csv")
 ORDERED_FEATURES = os.path.join(ANALYSIS_PATH, "features.csv")
 
 # Analysis showed using all features resulted in best accuracy
-BEST_FEATURE_COUNT = 451
+BEST_FEATURE_COUNT = 390
 FEATURE_LIST = None #["Segment_22(t)", "Segment_23(t)", "Segment_24(t)", "Segment_21(t)",	"Segment_25(t)", "Segment_22(t-1)", "Segment_21(t-1)", "Segment_24(t-1)", "Segment_23(t-1)", "Segment_16(t)", "Segment23_(t+1)"]
 
 

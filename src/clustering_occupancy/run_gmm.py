@@ -1,3 +1,13 @@
+# coding=utf-8
+
+"""
+SE755 - A2
+Run the gmm algorithm
+
+Authors:
+Joshua Brundan
+Kevin Hira
+"""
 
 
 from src.common.load import load, append_to_file, delete_file

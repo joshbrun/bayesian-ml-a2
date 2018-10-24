@@ -1,3 +1,14 @@
+# coding=utf-8
+
+"""
+SE755 - A2
+Trains the deep neural network model
+
+Authors:
+Joshua Brundan
+Kevin Hira
+"""
+
 import tensorflow as tf
 from tensorflow import estimator
 from sklearn.model_selection import train_test_split
@@ -16,8 +27,6 @@ def train(data, analysis, hidden_layers, training=False, estimation=None, verbos
 
     feature_cols = [tf.feature_column.numeric_column("X", shape=[1, 36])]
 
-
-    # hidden_layers = [750, 500, 50]
     dnn_clf = estimator.DNNClassifier(hidden_units=hidden_layers,
                                       n_classes=8,
                                       feature_columns=feature_cols,
@@ -47,20 +56,16 @@ def train(data, analysis, hidden_layers, training=False, estimation=None, verbos
         return results
 
     if estimation is not None:
-
-        # estimation["target"] = None
-
         input_fn = estimator.inputs.numpy_input_fn(x={"X": estimation.values}, y=None, shuffle=False)
 
         pred_generator = dnn_clf.predict(input_fn=input_fn)
 
-        count = 0
         print("-"*90)
-        indexs = []
+        indices = []
         for prediction_instance in pred_generator:
-            indexs.append(np.argmax(prediction_instance['probabilities']))
+            indices.append(np.argmax(prediction_instance['probabilities']))
 
-        return indexs
+        return indices
 
 def split_input_and_target(data):
     """

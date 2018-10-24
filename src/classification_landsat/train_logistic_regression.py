@@ -27,8 +27,8 @@ def train(data, train, analysis):
 
         features, target = split_input_and_target(data)
         x_train, x_test, y_train, y_test = train_test_split(features, target, stratify=target, test_size=0.10)
+        
         # No need for GridSearch, as no hyperparameters
-
         clf = LogisticRegressionCV(cv=5, max_iter=2500, multi_class='auto')
 
         print("This will take a short while to fit... Please ignore the DataConversionWarning below:")
@@ -42,9 +42,10 @@ def train(data, train, analysis):
             print("Training Classification Report:")
             print(classification_report(y_train, train_pred))
 
+            print("Testing Classification Report:")
             print(classification_report(y_test, test_pred))
 
-            print("\nTesting Classification Report:")
+            print()
             print(clf.score(x_train, y_train))
             print(clf.score(x_test, y_test))
         return clf

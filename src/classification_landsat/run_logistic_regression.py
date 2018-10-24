@@ -13,24 +13,6 @@ Joshua Brundan
 Kevin Hira
 """
 
-def run(options):
-    pass
-
-
-# coding=utf-8
-
-"""
-SE755 - A2
-Data set: 1 - H1 Traffic Volume
-ML type: Regression
-
-Algorithms: bayesian_linear_regression
-Runs the training and analysis of the bayesian linear regression
-
-Authors:
-Joshua Brundan
-Kevin Hira
-"""
 
 from src.common.load import load, append_to_file, delete_file
 from src.classification_landsat.preprocess import preprocess

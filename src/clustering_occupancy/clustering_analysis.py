@@ -2,7 +2,7 @@
 
 """
 SE755 - A2
-Determines the success of a regression based model
+Determines the success of a cluster based model
 
 Authors:
 Joshua Brundan

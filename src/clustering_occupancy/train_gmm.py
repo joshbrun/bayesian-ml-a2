@@ -2,7 +2,7 @@
 
 """
 SE755 - A2
-Trains the k_means model
+Trains the gmm model
 
 Authors:
 Joshua Brundan

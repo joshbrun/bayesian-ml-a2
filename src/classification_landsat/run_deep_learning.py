@@ -12,6 +12,7 @@ Authors:
 Joshua Brundan
 Kevin Hira
 """
+
 from src.common.load import load, append_to_file, delete_file
 from src.classification_landsat.preprocess import preprocess
 from src.classification_landsat.train_deep_learning import train as train_deep_learning
@@ -47,7 +48,6 @@ def run(options):
         hidden_layer_2 = [6,12,18,36,]
         hidden_layer_3 = [6,12,18,36,72]
         # Train the data
-        # model, training_analysis
 
         # Structural Analysis
         print("Running - This will take a long while...")

@@ -1,0 +1,10 @@
+Usage: python3 run.py ARGS
+
+Arguments
+
+-a : Analysis mode (how we got out values)
+-t : Train and test a model
+-d N : Choose dataset (1 traffic, 2 occupancy, 3 landsat)
+-s N : Choose algorithm, when there is 2 models (so eg 1 will do K-Means, Logistic, 2 will do GMM and Deep)
+
+-n path : Load in test/eval samples from csv file

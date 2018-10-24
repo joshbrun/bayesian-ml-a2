@@ -29,8 +29,8 @@ def train(data, analysis):
 
     # Calculate base line
 
-    training_base_line_predictions = pandas.DataFrame({'prediction':[42]*6750})
-    testing_base_line_predictions = pandas.DataFrame({'prediction':[42]*750})
+    training_base_line_predictions = pandas.DataFrame({'prediction': [329]*6750})
+    testing_base_line_predictions = pandas.DataFrame({'prediction': [329]*750})
 
     # base_mae, base_rmse = regression_prediction_evaluation(base_line_predictions.values, y_train.values)
 

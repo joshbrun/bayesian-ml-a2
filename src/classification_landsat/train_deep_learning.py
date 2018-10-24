@@ -39,7 +39,7 @@ def train(data, analysis, hidden_layers, training=False, estimation=None, verbos
 
     if verbose:
         print("The accuracy of training results is : {0:.2f}%".format(100 * eval_results_training['accuracy']))
-        print("The accuracy of testing results is : {0:.2f}%".format(100 * testing_results['accuracy']))
+        print("The accuracy of testing results is : {0:.2f}%".format(100 * eval_results_testing['accuracy']))
 
 
     if analysis:

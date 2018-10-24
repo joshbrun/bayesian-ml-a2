@@ -21,7 +21,6 @@ def preprocess(raw_data, n, feature_list=None, evaluation_data=None):
     :return: the preprocessed traffic data
     """
 
-
     if evaluation_data is not None:
         # Add the evaluation_data to the dataset
         raw_data = raw_data.append(evaluation_data, ignore_index=True)

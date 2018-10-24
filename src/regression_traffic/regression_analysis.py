@@ -70,12 +70,12 @@ def analysis_model(testing_base_line_predictions, training_base_line_predictions
         print("Variance: %f%%" % overfitting_from_mae)
         print()
 
-    testing_vs_basecase_mse_score = mean_absolute_error(testing_actual, testing_base_line_predictions)
-    testing_mse_score = mean_absolute_error(testing_actual, testing_prediction)
+    testing_vs_basecase_mse_score = mean_squared_error(testing_actual, testing_base_line_predictions)
+    testing_mse_score = mean_squared_error(testing_actual, testing_prediction)
     testing_improvement_mse = percentage_improvement(testing_mse_score, testing_vs_basecase_mse_score)
 
-    training_vs_basecase_mse_score = mean_absolute_error(training_actual, training_base_line_predictions)
-    training_mse_score = mean_absolute_error(training_actual, training_prediction)
+    training_vs_basecase_mse_score = mean_squared_error(training_actual, training_base_line_predictions)
+    training_mse_score = mean_squared_error(training_actual, training_prediction)
     training_improvement_mse = percentage_improvement(training_mse_score, training_vs_basecase_mse_score)
 
     overfitting_from_mse = percentage_improvement(testing_vs_basecase_mse_score, training_vs_basecase_mse_score)
